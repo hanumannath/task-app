@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .task-item {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .task-item strong {
+            font-size: 18px;
+        }
+        .task-item p {
+            margin-left: 10px 0;
+        }
+        .task-item a {
+            color: #007bff;
+            text-decoration: none;
+            margin-left: 40px;
+        }
+        .task-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task App</h1>
+
+    <h2>Add New Task</h2>
+    <form method="post" action="/api/home">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" required><br>
+        <label for="desc">Description:</label><br>
+        <textarea id="desc" name="desc" required></textarea><br><br>
+        <input type="submit" value="Add Task">
+    </form>
+
+    <h2>Your Tasks</h2>
+    {% if user_tasks %}
+        <ul>
+            {% for task in user_tasks %}
+                <li class="task-item">
+                    <strong>{{ task.title }}</strong>: {{ task.desc }}
+                    <a href="/api/update/{{ task.id }}">Edit</a>
+                    <a href="/api/delete/{{ task.id }}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks found.</p>
+    {% endif %}
+
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+</body>
+</html>
